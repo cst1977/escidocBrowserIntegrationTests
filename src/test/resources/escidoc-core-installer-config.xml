@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<AutomatedInstallation langpack="deu">
+<com.izforge.izpack.panels.HTMLHelloPanel id="UNKNOWN (com.izforge.izpack.panels.HTMLHelloPanel)"/>
+<com.izforge.izpack.panels.HTMLLicencePanel id="HTMLLicencePanel.licence"/>
+<com.izforge.izpack.panels.HTMLInfoPanel id="info"/>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.0">
+<userInput>
+<entry key="InstallationType" value="install"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.1">
+<userInput>
+<entry key="EscidocHost" value="localhost"/>
+<entry key="EscidocPort" value="8080"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.2">
+<userInput>
+<entry key="Database" value="PostgreSQL"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.3">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.4">
+<userInput>
+<entry key="DatabaseDriverClassPostgres" value="org.postgresql.Driver"/>
+<entry key="DatabaseHost" value="localhost"/>
+<entry key="RootDatabaseName" value="postgres"/>
+<entry key="DatabasePortPostgres" value="5432"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.5">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.6">
+<userInput>
+<entry key="DatabaseAdminPassword" value="postgres"/>
+<entry key="DatabaseAdminUsernamePostgres" value="postgres"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.7">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.8">
+<userInput>
+<entry key="DatabasePassword" value="escidoc"/>
+<entry key="DatabaseUsername" value="escidoc"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.9">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.10">
+<userInput>
+<entry key="FedoraPassword" value="fedoraAdmin"/>
+<entry key="FedoraUsername" value="fedoraAdmin"/>
+<entry key="FedoraAdminMailAddress" value="test"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.11">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.12">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.13">
+<userInput>
+<entry key="JdkUseJavaHome" value="true"/>
+<entry key="JdkHome" value="/usr/lib64/jvm/java-1.6.0-sun"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.TargetPanel id="EscidocTarget">
+<installpath>/home/cst/NetBeansProjects/escidocBrowserIntegrationTests/target/escidoc</installpath>
+</com.izforge.izpack.panels.TargetPanel>
+<com.izforge.izpack.panels.TreePacksPanel id="EscidocPacks">
+<pack index="0" name="eSciDoc" selected="true"/>
+<pack index="1" name="Install Scripts" selected="true"/>
+<pack index="2" name="JBoss Application Server" selected="true"/>
+<pack index="3" name="Fedora Repository" selected="true"/>
+<pack index="4" name="eSciDoc Infrastructure" selected="true"/>
+<pack index="5" name="Additional Services and Tools" selected="true"/>
+<pack index="6" name="Admin Tool" selected="true"/>
+<pack index="7" name="Migration Tool" selected="false"/>
+<pack index="8" name="Fedora GSearch" selected="true"/>
+<pack index="9" name="SRW" selected="true"/>
+<pack index="10" name="Saxon" selected="true"/>
+<pack index="11" name="Configuration and Initialization" selected="true"/>
+<pack index="12" name="Database Creation" selected="true"/>
+<pack index="13" name="Database Initialization" selected="true"/>
+<pack index="14" name="Roles and Users Creation" selected="true"/>
+</com.izforge.izpack.panels.TreePacksPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.14">
+<userInput>
+<entry key="AdminPassword" value="escidoc"/>
+<entry key="AdminUsername" value="sysadmin"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.15">
+<userInput>
+<entry key="InspectorPassword" value="escidoc"/>
+<entry key="InspectorUsername" value="inspector"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.16">
+<userInput>
+<entry key="DepositorPassword" value="escidoc"/>
+<entry key="DepositorUsername" value="depositor"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.17">
+<userInput>
+<entry key="DoRemoveJmxConsole" value="true"/>
+</userInput>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.18">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.19">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.InstallPanel id="EscidocInstall"/>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.20">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.UserInputPanel id="UserInputPanel.21">
+<userInput/>
+</com.izforge.izpack.panels.UserInputPanel>
+<com.izforge.izpack.panels.ProcessPanel id="UNKNOWN (com.izforge.izpack.panels.ProcessPanel)"/>
+<com.izforge.izpack.panels.HTMLInfoPanel id="installInfo"/>
+<com.izforge.izpack.panels.HTMLInfoPanel id="upgradeInfo"/>
+<com.izforge.izpack.panels.HTMLInfoPanel id="upgradeInfoWithoutMigration"/>
+<com.izforge.izpack.panels.FinishPanel id="CommonFinish"/>
+</AutomatedInstallation>

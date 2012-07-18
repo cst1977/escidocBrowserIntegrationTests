@@ -1,0 +1,387 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.fiz.karlsruhe</groupId>
+    <artifactId>escidocBrowserIntegrationTests</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>escidocBrowserIntegrationTests</name>
+
+
+    <repositories>
+        <repository>
+            <id>localhost</id>
+            <url>https://escidoc.org/artifactory/repo</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>org.apache.maven.repo</id>
+            <url>http://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>org.apache.maven.repo</id>
+            <url>http://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>localhost</id>
+            <url>https://escidoc.org/artifactory/repo</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+    
+    <dependencies>
+        <!-- Selenium  Dependencies -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>2.24.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.24.1</version>
+        </dependency>
+
+        <!-- Ingest Fedora -->
+        <dependency>
+            <groupId>org.fcrepo</groupId>
+            <artifactId>fcrepo-client-admin</artifactId>
+            <version>${fcrepo.version}</version>
+        </dependency>
+        
+        <!-- to be deployed in the container -->
+        <dependency>
+            <groupId>org.escidoc</groupId>
+            <artifactId>browser</artifactId>
+            <version>0.4.8-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.escidoc.core</groupId>
+            <artifactId>escidoc-ijc</artifactId>
+            <version>1.4.1</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jibx</groupId>
+            <artifactId>jibx-run</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jibx</groupId>
+            <artifactId>jibx-extras</artifactId>
+            <version>1.2.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+      
+        <!-- JUnit Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <profiles>
+        <profile>
+            <id>skipITs</id>
+            <activation>
+                <property>
+                    <name>skipITs</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <escidoc.postgres.skip>true</escidoc.postgres.skip>
+            </properties>
+        </profile>
+    </profiles>
+    
+    <properties>
+        <escidoc.installer.config>escidoc-core-installer-config.xml</escidoc.installer.config>
+        
+        <escidoc.server.host>localhost</escidoc.server.host>
+        <escidoc.server.port>8080</escidoc.server.port>
+        
+        <fedora.admin.user>fedoraAdmin</fedora.admin.user>
+        <fedora.admin.password>fedoraAdmin</fedora.admin.password>
+        <fcrepo.version>3.4.2</fcrepo.version>
+        
+        <!--<cargo.jvmargs>-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n -Xmx1224m -Xms312m -XX:MaxPermSize=320m</cargo.jvmargs>-->
+        <cargo.jvmargs>-Xmx1224m -Xms312m -XX:MaxPermSize=320m</cargo.jvmargs>
+        <cargo.jvmdebug></cargo.jvmdebug>
+        <cargo.ucldebug></cargo.ucldebug>
+        <cargo.wait>false</cargo.wait>
+    </properties>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jibx</groupId>
+                <artifactId>maven-jibx-plugin</artifactId>
+                <version>1.2.3</version>
+                <configuration>
+                    <directory>src/main/resources/jibx/binding</directory>
+                    <includes>
+                        <include>rest-binding.in.xml</include>
+                        <include>rest-binding.out.xml</include>
+                        <include>soap-binding.in.xml</include>
+                        <include>soap-binding.out.xml</include>
+                    </includes>
+                    <verbose>false</verbose>
+                    <validate>true</validate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-installer</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.escidoc.core</groupId>
+                                    <artifactId>installer</artifactId>
+                                    <version>1.4.2-SNAPSHOT</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${installer.location}</outputDirectory>
+                                    <destFileName>escidoc-installer.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <skip>${skipITs}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-escidoc-core</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-Dskip.validation=true</argument>
+                                <argument>-jar</argument>
+                                <argument>${project.build.directory}/dependency/escidoc-installer.jar</argument>
+                                <argument>${project.basedir}/src/test/resources/${escidoc.installer.config}</argument>
+                            </arguments>
+                            <outputFile>${project.build.directory}/escidoc-installer.log
+                            </outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.2.2</version>
+                <executions>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <wait>false</wait>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skipITs}</skip>
+                    <wait>${cargo.wait}</wait>
+                    <container>
+                        <containerId>jboss42x</containerId>
+                        <home>${project.build.directory}/escidoc/jboss</home>
+                        <timeout>600000</timeout>
+                    </container>
+
+                    <configuration>
+                        <type>standalone</type>
+                        <properties>
+                            <cargo.hostname>localhost</cargo.hostname>
+                            <cargo.protocol>http</cargo.protocol>
+                            <cargo.servlet.port>${escidoc.server.port}</cargo.servlet.port>
+                            <cargo.rmi.port>1099</cargo.rmi.port>
+                            <cargo.logging>medium</cargo.logging>
+                            <!--<cargo.runtime.args>-b 0.0.0.0</cargo.runtime.args>-->
+                            <cargo.jvmargs>${cargo.jvmargs} ${cargo.jvmdebug} ${cargo.ucldebug}</cargo.jvmargs>
+                        </properties>
+                        <deployables>
+                            <deployable>
+                                <groupId>org.escidoc</groupId>
+                                <artifactId>browser</artifactId>
+                                <type>war</type>
+                                <properties>
+                                    <context>browser</context>
+                                </properties>
+                            </deployable>
+                        </deployables>
+                    </configuration>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <id>compile-it-sources</id>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <verbose>true</verbose>
+                    <fork>true</fork>
+                    <meminitial>128m</meminitial>
+                    <maxmem>512m</maxmem>
+                    <debug>true</debug>
+                    <optimize>false</optimize>
+                </configuration>
+            </plugin>
+
+            <!-- skip compiling integration test source because axis is to 
+                 generate first (but compiling test-sources comes first 
+                 in standard lifecycle) -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.11</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>2.11</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.12</version>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <systemproperties>
+                        <property>
+                            <!-- Specific log4j config for tests -->
+                            <name>log4j.configuration</name>
+                            <value>test-log4j.xml</value>
+                        </property>
+                    </systemproperties>
+                    <redirectTestOutputToFile>${project.build.directory}/test-output.log</redirectTestOutputToFile>
+                    <forkMode>always</forkMode>
+                    <argLine>-Xmx1024m -XX:MaxPermSize=320m</argLine>
+                    <failIfNoTests>true</failIfNoTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <distributionManagement>
+        <repository>
+            <id>org.escidoc.core</id>
+            <name>org.escidoc.core-releases</name>
+            <url>https://www.escidoc.org/artifactory/libs-releases-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>org.escidoc.core</id>
+            <name>org.escidoc.core-snapshots</name>
+            <url>https://www.escidoc.org/artifactory/libs-snapshots-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

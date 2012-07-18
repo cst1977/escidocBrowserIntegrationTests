@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-hard-deploy</actionName>
+            <displayName>hard-deploy</displayName>
+            <goals>
+                <goal>jboss:hard-deploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-hard-undeploy</actionName>
+            <displayName>hard-undeploy</displayName>
+            <goals>
+                <goal>jboss:hard-undeploy</goal>
+            </goals>
+        </action>
+    </actions>
