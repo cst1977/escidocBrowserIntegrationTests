@@ -139,6 +139,31 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-filtered-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/test/resources</directory>
+                                    <filtering>true</filtering>
+                                    <excludes>
+                                        <exclude>escidoc.properties</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.jibx</groupId>
                 <artifactId>maven-jibx-plugin</artifactId>
                 <version>1.2.3</version>
@@ -225,7 +250,7 @@
                                 <argument>-Dskip.validation=true</argument>
                                 <argument>-jar</argument>
                                 <argument>${project.build.directory}/dependency/escidoc-installer.jar</argument>
-                                <argument>${project.basedir}/src/test/resources/${escidoc.installer.config}</argument>
+                                <argument>${project.build.directory}/${escidoc.installer.config}</argument>
                             </arguments>
                             <outputFile>${project.build.directory}/escidoc-installer.log
                             </outputFile>
